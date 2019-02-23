@@ -1,0 +1,15 @@
+console.log("A");
+setTimeout(() => console.log("B1"), 3000);
+setTimeout(() => console.log("B2"), 3001);
+setTimeout(() => console.log("B3"), 3002);
+setTimeout(() => console.log("B4"), 3003);
+setTimeout(() => console.log("B5"), 3004);
+setTimeout(() => console.log("B6"), 3005);
+setTimeout(() => console.log("B7"), 3006);
+setTimeout(() => console.log("B8"), 3007);
+setTimeout(() => console.log("B9"), 3008);
+console.log("C");
+setTimeout(() => console.log("D"), 2000);
+console.log("E");
+setTimeout(() => console.log("F"), 1000);
+console.log("G");
