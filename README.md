@@ -396,7 +396,7 @@ Output
 The `Map` object holds key-value pairs and remembers the original insertion order of the keys. Any value (both objects and primitive values) may be used as 
 either a key or a value.
 
-***sets etc***
+***sets***
 ```js
 let s = new Set()
 s.add("hello").add("goodbye").add("hello")
@@ -413,6 +413,12 @@ Output
 The `Set` object lets you store unique values of any type, whether primitive values or object references.
 
 ### Explain and demonstrate how es2015 supports modules (import and export) similar to what is offered by NodeJS.
+```js
+// exports a function declared earlier
+export { myFunction }; 
+
+import * as myModule from '/modules/my-module.js';
+```
 
 ### Provide an example of ES6 inheritance and reflect over the differences between Inheritance in Java and in ES6.
 
@@ -421,6 +427,16 @@ The `Set` object lets you store unique values of any type, whether primitive val
 ### Provide a number of examples to demonstrate the benefits of using TypeScript, including, types, interfaces, classes and generics
 
 ### Explain the ECMAScript Proposal Process for how new features are added to the language (the TC39 Process)
+
+||Stage|Purpose|Entrance Criteria|Acceptance Signifies|Spec Quality|Post-Acceptance Changes Expected|Implementation Types Expected*|
+-|-|-|-|-|-|-|-
+0|Strawman|Allow input into the specification|None|N/A|N/A|N/A|N/A
+1|Proposal|<li>Make the case for the addition</li><li>Describe the shape of a solution</li><li>Identify potential challenges</li>|<li>Identifie “champion” who will advance the addition</li><li>Prose outlining the problem or need and the general shape of a solution</li><li>Illustrative examples of usage</li><li>High-level API</li><li>Discussion of key algorithms, abstractions and semantics</li><li>Identification of potential “cross-cutting” concerns and implementation challenges/complexity</li>|The committee expects to devote time to examining the problem space, solutions and cross-cutting concerns|None|Major|Polyfills / demos
+2|Draft|Precisely describe the syntax and semantics using formal spec language|<li>Above</li><li>Initial spec text</li>|The committee expects the feature to be developed and eventually included in the standard|Draft: all major semantics, syntax and API are covered, but TODOs, placeholders and editorial issues are expected|Incremental|Experimental
+3|Candidate|Indicate that further refinement will require feedback from implementations and users|<li>Above</li><li>Complete spec text</li><li>Designated reviewers have signed off on the current spec text</li><li>All ECMAScript editors have signed off on the current spec text</li>|The solution is complete and no further work is possible without implementation experience, significant usage and external feedback.|Complete: all semantics, syntax and API are completed described|Limited: only those deemed critical based on implementation experience|Spec compliant
+4|Finished|Indicate that the addition is ready for inclusion in the formal ECMAScript standard|<li>Above</li><li>Test262 acceptance tests have been written for mainline usage scenarios, and merged</li><li>Two compatible implementations which pass the acceptance tests</li><li>Significant in-the-field experience with shipping implementations, such as that provided by two independent VMs</li><li>A pull request has been sent to tc39/ecma262 with the integrated spec text</li><li>All ECMAScript editors have signed off on the pull request</li>|The addition will be included in the soonest practical standard revision|Final: All changes as a result of implementation experience are integrated|None|Shipping
+
+
 
 ## Callbacks, Promises and async/await
 
