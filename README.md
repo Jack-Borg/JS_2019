@@ -5,7 +5,7 @@
 ### You should include both topics related to the fact that Java is a compiled language and JavaScript a scripted language, and general differences in language features.
 
 | | Java | JavaScript|
------------ | ------------- | -------------
+- | - | -
 Compiled vs Interpreted | Java is a compiled language and need to be compiled to bytecode before it can be run on a virtual machine. | Javascript is an Interpreted scripting language, which means it can be directly interpreted directly by a browser.
 Static vs Dynamic Type Checking |Java uses static type checking, where the type of a variable is checked at compile-time. The programmer must specify the type (integer, double, string, etc.) of any variable they create. | JavaScript, like most scripting languages, uses dynamic typing, where type safety is verified at runtime. It is not required for a programmer to specify the type of any variable they create.
 Concurrency | Java makes use of multiple threads to perform tasks in parallel. | JavaScript, particularly as it exists as Node.js in server-side applications, handles concurrency on one main thread of execution via a queue system called the event loop.
@@ -436,24 +436,129 @@ import * as myModule from '/modules/my-module.js';
 3|Candidate|Indicate that further refinement will require feedback from implementations and users|<li>Above</li><li>Complete spec text</li><li>Designated reviewers have signed off on the current spec text</li><li>All ECMAScript editors have signed off on the current spec text</li>|The solution is complete and no further work is possible without implementation experience, significant usage and external feedback.|Complete: all semantics, syntax and API are completed described|Limited: only those deemed critical based on implementation experience|Spec compliant
 4|Finished|Indicate that the addition is ready for inclusion in the formal ECMAScript standard|<li>Above</li><li>Test262 acceptance tests have been written for mainline usage scenarios, and merged</li><li>Two compatible implementations which pass the acceptance tests</li><li>Significant in-the-field experience with shipping implementations, such as that provided by two independent VMs</li><li>A pull request has been sent to tc39/ecma262 with the integrated spec text</li><li>All ECMAScript editors have signed off on the pull request</li>|The addition will be included in the soonest practical standard revision|Final: All changes as a result of implementation experience are integrated|None|Shipping
 
-
-
 ## Callbacks, Promises and async/await
 
 ### Explain about promises in ES-6 including, the problems they solve, a quick explanation of the Promise API and:
 
+The `Promise` object represents the eventual completion (or failure) of an asynchronous operation, and its resulting value.
+
+A `Promise` is a proxy for a value not necessarily known when the promise is created. It allows you to associate handlers with an asynchronous action's eventual success value or failure reason. This lets asynchronous methods return values like synchronous methods: instead of immediately returning the final value, the asynchronous method returns a promise to supply the value at some point in the future.
+
+A `Promise` is in one of these states:
+
+* pending: initial state, neither fulfilled nor rejected.
+* fulfilled: meaning that the operation completed successfully.
+* rejected: meaning that the operation failed.
+
+A pending promise can either be fulfilled with a value, or rejected with a reason (error). When either of these options happens, the associated handlers queued up by a promise's then method are called. (If the promise has already been fulfilled or rejected when a corresponding handler is attached, the handler will be called, so there is no race condition between an asynchronous operation completing and its handlers being attached.)
+
+As the `Promise.prototype.then()` and `Promise.prototype.catch()` methods return promises, they can be chained.
+
 #### Example(s) that demonstrate how to avoid the callback hell  (“Pyramid of Doom")
+
+**Pyramid of Doom**
+```js
+doSomething(function(responseOne) {
+    doSomethingElse(responseOne, function(responseTwo, err) {
+        if (err) { handleError(err); }
+        doMoreStuff(responseTwo, function(responseThree, err) {
+            if (err) { handleAnotherError(err); }
+            doFinalThing(responseThree, function(err) {
+                if (err) { handleAnotherError(err); }
+                // Complete
+            }); // end doFinalThing
+        }); // end doMoreStuff
+    }); // end doSomethingElse
+}); // end doSomething
+```
+**Solution**
+```
+doSomething()
+.then(doSomethingElse)
+.catch(handleError)
+.then(doMoreStuff)
+.then(doFinalThing)
+.catch(handleAnotherError)
+```
 
 #### Example(s) that demonstrate how to execute asynchronous (promise-based) code in serial or parallel
 
+```js
+var arrayOfPromises = [] // array containing promises
+
+Promise.all(arrayOfPromises)
+.then(function(arrayOfResults) {
+    /* Do something when all Promises are resolved */
+})
+.catch(function(err) {
+    /* Handle error is any of Promises fails */
+})
+```
+
 #### Example(s) that demonstrate how to implement our own promise-solutions.
 
+```js
+function get(url) {
+  return new Promise(function(resolve, reject) {
+    var req = new XMLHttpRequest();
+    req.open('GET', url);
+    req.onload = function() {
+      if (req.status == 200) { 
+          resolve(req.response); /* PROMISE RESOLVED */
+      } else { 
+          reject(Error(req.statusText)); /* PROMISE REJECTED */
+      }
+    };
+    req.onerror = function() { reject(Error("Network Error")); };
+    req.send();
+  });
+}
+```
+
 #### Example(s) that demonstrate error handling with promises
+The `catch()` method returns a `Promise` and deals with rejected cases only. It behaves the same as calling `Promise.prototype.then(undefined, onRejected)` (in fact, calling `obj.catch(onRejected)` internally calls `obj.then(undefined, onRejected)`). This means, that you have to provide `onRejected` function even if you want to fallback to `undefined` result value - for example `obj.catch(() => {})`.
+```js
+get(url)
+.then(function(response) {
+    /* successFunction */
+})
+.catch(function(err) {
+    /* errorFunction */
+})
+```
 
 ### Explain about JavaScripts async/await, how it relates to promises and reasons to use it compared to the plain promise API.
 
-### Provide examples to demonstrate:
+`Async Await` is syntactic sugar that changes the .then notation to more readable syntax. Instead of making a . connection between the promises the keyword await can be used instead.
 
+### Provide examples to demonstrate:
+**Promise**
+```js
+const makeRequest = () =>
+  getJSON()
+    .then(data => {
+        console.log(data)
+        return "done"
+    }).catch(error => {
+        console.log(error)
+        return "error"
+    })
+makeRequest()
+```
+**async/await**
+```js
+const makeRequest = async () => {
+    try{
+        const data = JSON.parse(await getJSON())
+        console.log(data)
+        return "done"
+    }catch(error){
+        console.log(error)
+        return "error"
+    }
+}
+makeRequest()
+```
 #### Why this often is the preferred way of handling promises
 
 #### Error handling with async/await
