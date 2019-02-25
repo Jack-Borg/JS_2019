@@ -355,7 +355,9 @@ An `arrow function` expression is a syntactically compact alternative to a regul
 
 ***this***
 
-# TODO
+A function's `this` keyword behaves a little differently in JavaScript compared to other languages. It also has some differences between [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode) and non-strict mode.
+
+In most cases, the value of `this` is determined by how a function is called. It can't be set by assignment during execution, and it may be different each time the function is called. ES5 introduced the `bind()` method to set the value of a function's `this` regardless of how it's called, and ES2015 introduced `arrow functions` which don't provide their own `this` binding (it retains the `this` value of the enclosing lexical context).
 
 ***de-structuring assignments***
 
@@ -454,7 +456,7 @@ A pending promise can either be fulfilled with a value, or rejected with a reaso
 
 As the `Promise.prototype.then()` and `Promise.prototype.catch()` methods return promises, they can be chained.
 
-#### Example(s) that demonstrate how to avoid the callback hell  (“Pyramid of Doom")
+### Example(s) that demonstrate how to avoid the callback hell  (“Pyramid of Doom")
 
 **Pyramid of Doom**
 ```js
@@ -474,14 +476,14 @@ doSomething(function(responseOne) {
 **Solution**
 ```
 doSomething()
-.then(doSomethingElse)
-.catch(handleError)
-.then(doMoreStuff)
-.then(doFinalThing)
-.catch(handleAnotherError)
+    .then(doSomethingElse)
+    .catch(handleError)
+    .then(doMoreStuff)
+    .then(doFinalThing)
+    .catch(handleAnotherError)
 ```
 
-#### Example(s) that demonstrate how to execute asynchronous (promise-based) code in serial or parallel
+### Example(s) that demonstrate how to execute asynchronous (promise-based) code in serial or parallel
 
 ```js
 var arrayOfPromises = [] // array containing promises
@@ -495,7 +497,7 @@ Promise.all(arrayOfPromises)
 })
 ```
 
-#### Example(s) that demonstrate how to implement our own promise-solutions.
+### Example(s) that demonstrate how to implement our own promise-solutions.
 
 ```js
 function get(url) {
@@ -515,7 +517,7 @@ function get(url) {
 }
 ```
 
-#### Example(s) that demonstrate error handling with promises
+### Example(s) that demonstrate error handling with promises
 The `catch()` method returns a `Promise` and deals with rejected cases only. It behaves the same as calling `Promise.prototype.then(undefined, onRejected)` (in fact, calling `obj.catch(onRejected)` internally calls `obj.then(undefined, onRejected)`). This means, that you have to provide `onRejected` function even if you want to fallback to `undefined` result value - for example `obj.catch(() => {})`.
 ```js
 get(url)
@@ -559,8 +561,29 @@ const makeRequest = async () => {
 }
 makeRequest()
 ```
-#### Why this often is the preferred way of handling promises
-
-#### Error handling with async/await
-
-#### Serial or parallel execution with async/await.
+### Serial or parallel execution with async/await.
+**Serial**
+```js
+async function serialFlow(){
+    let result1 = await doJob(1,1);
+    let result2 = await doJob(2,2);
+    let result3 = await doJob(3,3);
+    let finalResult = result1+result2+result3;
+    console.log(finalResult);
+    return finalResult; 
+}
+```
+**Parallel**
+```js
+async function parallelFlow(){
+    let result1 = doJob(1,1);
+    let result2 = doJob(2,2);
+    let result3 = doJob(3,3);
+    let result1 = await result1;
+    let result2 = await result2;
+    let result3 = await result3;
+    let finalResult = result1+result2+result3;
+    console.log(finalResult);
+    return finalResult; 
+}
+```
