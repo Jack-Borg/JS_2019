@@ -5,7 +5,7 @@
 ### You should include both topics related to the fact that Java is a compiled language and JavaScript a scripted language, and general differences in language features.
 
 | | Java | JavaScript|
-- | - | -
+| - | - | - |
 Compiled vs Interpreted | Java is a compiled language and need to be compiled to bytecode before it can be run on a virtual machine. | Javascript is an Interpreted scripting language, which means it can be directly interpreted directly by a browser.
 Static vs Dynamic Type Checking |Java uses static type checking, where the type of a variable is checked at compile-time. The programmer must specify the type (integer, double, string, etc.) of any variable they create. | JavaScript, like most scripting languages, uses dynamic typing, where type safety is verified at runtime. It is not required for a programmer to specify the type of any variable they create.
 Concurrency | Java makes use of multiple threads to perform tasks in parallel. | JavaScript, particularly as it exists as Node.js in server-side applications, handles concurrency on one main thread of execution via a queue system called the event loop.
