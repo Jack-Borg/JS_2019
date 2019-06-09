@@ -1,40 +1,30 @@
 import _ from "lodash";
 import "./style.css";
-import "bootstrap/dist/css/bootstrap.css";
+import Icon from "./icon.png";
+import printMe from "./print.js";
 
-// You must implement the makeTable(..) function, used below:
-const table = makeTable(persons);
-document.getElementById("my-table").innerHTML = table;
+function component() {
+	let element = document.createElement("div");
+	var btn = document.createElement("button");
 
-// import _ from "lodash";
-// import "./style.css";
-// import Icon from "./icon.png";
-// import printMe from "./print.js";
+	element.innerHTML = _.join(["Hello", "webpack"], " ");
+	element.classList.add("hello");
 
-// function component() {
-// 	var element = document.createElement("div");
+	btn.innerHTML = "Click me and check the console!";
+	btn.onclick = printMe;
 
-// 	const name = "Kurt Wonnegut";
-// 	setTimeout(() => alert(`Hello there from ${name}`), 1000);
+	element.appendChild(btn);
 
-// 	// var btn = document.createElement("button");
+	// Add the image to our existing div.
+	var myIcon = new Image();
+	myIcon.src = Icon;
 
-// 	// element.innerHTML = _.join(["Hello", "webpack"], " ");
+	element.appendChild(myIcon);
 
-// 	// btn.innerHTML = "Click me and check the console!";
-// 	// btn.onclick = printMe;
+	const name = "Kurt Wonnegut";
+	setTimeout(() => alert(`Hello there from ${name}`), 1000);
 
-// 	// element.appendChild(btn);
+	return element;
+}
 
-// 	// element.classList.add("hello");
-
-// 	// // Add the image to our existing div.
-// 	// var myIcon = new Image();
-// 	// myIcon.src = Icon;
-
-// 	// element.appendChild(myIcon);
-
-// 	return element;
-// }
-
-// document.body.appendChild(component());
+document.body.appendChild(component());
